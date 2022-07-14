@@ -2,6 +2,7 @@ import pandas as pd
 from pandas_datareader import data as pdr
 import yfinance as yf
 yf.pdr_override()
+# 선형회귀 직선으로 나타내기
 from scipy import stats
 import matplotlib.pylab as plt
 
@@ -12,6 +13,7 @@ df = pd.DataFrame({'X':dow['Close'], 'Y':kospi['Close']})
 df = df.fillna(method='bfill')
 df = df.fillna(method='ffill')
 
+# 기울기 y절편 값 구해짐
 regr = stats.linregress(df.X, df.Y)
 regr_line = f'Y = {regr.slope:2f}  X + {regr.intercept:2f}'
 

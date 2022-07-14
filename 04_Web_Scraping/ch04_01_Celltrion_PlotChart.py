@@ -4,6 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from matplotlib import pyplot as plt
 
+# 파일명과 모듈명은 같지않게 설정해야한다
+
 # 4.4.3 맨 뒤 페이지 숫자 구하기
 url = 'https://finance.naver.com/item/sise_day.nhn?code=068270&page=1'
 html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text

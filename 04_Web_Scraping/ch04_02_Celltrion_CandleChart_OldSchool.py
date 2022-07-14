@@ -7,7 +7,7 @@ from mpl_finance import candlestick_ohlc
 #from mplfinance.original_flavor import candlestick_ohlc
 from datetime import datetime
 
-url = 'https://finance.naver.com/item/sise_day.nhn?code=068270&page=1'
+url = 'https://finance.naver.com/item/sise_day.nhn?code=068270'
 with urlopen(url) as doc:
     html = BeautifulSoup(doc, 'lxml') 
     pgrr = html.find('td', class_='pgRR')
