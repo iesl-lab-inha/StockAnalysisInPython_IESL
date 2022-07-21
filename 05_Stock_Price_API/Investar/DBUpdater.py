@@ -1,5 +1,5 @@
-
 import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 import urllib, pymysql, calendar, time, json
 from urllib.request import urlopen
@@ -10,7 +10,7 @@ class DBUpdater:
     def __init__(self):
         """생성자: MariaDB 연결 및 종목코드 딕셔너리 생성"""
         self.conn = pymysql.connect(host='localhost', user='root',
-            password='myPa$$word', db='INVESTAR', charset='utf8')
+            password='abc12345', db='INVESTAR', charset='utf8')
         
         with self.conn.cursor() as curs:
             sql = """
@@ -46,6 +46,7 @@ class DBUpdater:
         url = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method='\
             'download&searchType=13'
         krx = pd.read_html(url, header=0)[0]
+        print(krx)
         krx = krx[['종목코드', '회사명']]
         krx = krx.rename(columns={'종목코드': 'code', '회사명': 'company'})
         krx.code = krx.code.map('{:06d}'.format)
@@ -76,7 +77,9 @@ class DBUpdater:
                     print(f"[{tmnow}] #{idx+1:04d} REPLACE INTO company_info "\
                         f"VALUES ({code}, {company}, {today})")
                 self.conn.commit()
-                print('')              
+                print('')
+
+        print(self.codes)
 
     def read_naver(self, code, company, pages_to_fetch):
         """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
@@ -85,17 +88,16 @@ class DBUpdater:
             with urlopen(url) as doc:
                 if doc is None:
                     return None
-                html = BeautifulSoup(doc, "lxml")
-                pgrr = html.find("td", class_="pgRR")
-                if pgrr is None:
-                    return None
-                s = str(pgrr.a["href"]).split('=')
-                lastpage = s[-1] 
+                html = BeautifulSoup(requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text, "lxml")
+                pgrr = html.find('td', class_='pgRR')
+                s = str(pgrr.a['href']).split('=')
+                lastpage = s[-1]
             df = pd.DataFrame()
             pages = min(int(lastpage), pages_to_fetch)
             for page in range(1, pages + 1):
                 pg_url = '{}&page={}'.format(url, page)
-                df = df.append(pd.read_html(pg_url, header=0)[0])
+                html = requests.get(pg_url, headers={'User-agent': 'Mozilla/5.0'}).text
+                df = df.append(pd.read_html(html, header=0)[0])
                 tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
                 print('[{}] {} ({}) : {:04d}/{:04d} pages are downloading...'.
                     format(tmnow, company, code, page, pages), end="\r")
@@ -125,7 +127,8 @@ class DBUpdater:
                 ' %H:%M'), num+1, company, code, len(df)))
 
     def update_daily_price(self, pages_to_fetch):
-        """KRX 상장법인의 주식 시세를 네이버로부터 읽어서 DB에 업데이트"""  
+        """KRX 상장법인의 주식 시세를 네이버로부터 읽어서 DB에 업데이트"""
+        print(self.codes)
         for idx, code in enumerate(self.codes):
             df = self.read_naver(code, self.codes[code], pages_to_fetch)
             if df is None:

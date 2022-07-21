@@ -8,7 +8,7 @@ class MarketDB:
     def __init__(self):
         """생성자: MariaDB 연결 및 종목코드 딕셔너리 생성"""
         self.conn = pymysql.connect(host='localhost', user='root', 
-            password='myPa$$word', db='INVESTAR', charset='utf8')
+            password='abc12345', db='INVESTAR', charset='utf8')
         self.codes = {}
         self.get_comp_info()
         
@@ -89,5 +89,8 @@ class MarketDB:
         return df 
 
 
-
+if __name__ == '__main__':
+    mk = MarketDB()
+    df = mk.get_daily_price('삼성전자', '2022-07-01')
+    print(df)
         
