@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from Investar import Analyzer
 
 mk = Analyzer.MarketDB()
-df = mk.get_daily_price('NAVER', '2019-01-02')
+df = mk.get_daily_price('NAVER')
   
 df['MA20'] = df['close'].rolling(window=20).mean() 
 df['stddev'] = df['close'].rolling(window=20).std() 

@@ -1,5 +1,6 @@
 from datetime import datetime
 import backtrader as bt
+import yfinance as yf
 
 class MyStrategy(bt.Strategy):  # ①
     def __init__(self):
@@ -14,8 +15,7 @@ class MyStrategy(bt.Strategy):  # ①
 
 cerebro = bt.Cerebro()  # ④
 cerebro.addstrategy(MyStrategy)
-data = bt.feeds.YahooFinanceData(dataname='036570.KS',  # ⑤
-    fromdate=datetime(2017, 1, 1), todate=datetime(2019, 12, 1))
+data = bt.feeds.PandasData(dataname=yf.download('005930.KS', '2022-1-1', '2022-8-1'))
 cerebro.adddata(data)
 cerebro.broker.setcash(10000000)  # ⑥
 cerebro.addsizer(bt.sizers.SizerFix, stake=30)  # ⑦

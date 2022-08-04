@@ -3,7 +3,7 @@ import mplfinance as mpf
 from Investar import Analyzer
 
 mk = Analyzer.MarketDB()
-df = mk.get_daily_price('엔씨소프트', '2017-01-01', '2019-12-31')
+df = mk.get_daily_price('엔씨소프트')
 df.index = pd.to_datetime(df.date)
 df = df[['open', 'high', 'low', 'close', 'volume']] 
 

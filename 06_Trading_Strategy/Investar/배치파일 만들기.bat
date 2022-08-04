@@ -1,0 +1,1 @@
+python C:\Users\김종하\PycharmProjects\StockAnalysisInPython_IESL\05_Stock_Price_API\Investar\DBUpdater.py
