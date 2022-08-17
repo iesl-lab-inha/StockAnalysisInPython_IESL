@@ -7,7 +7,7 @@ opt = webdriver.ChromeOptions()
 opt.add_argument('headless')
 
 # 웹드라이버를 통해 네이버 금융 ETF 페이지에 접속
-drv = webdriver.Chrome('C:\myPackage\chromedriver.exe', options=opt)
+drv = webdriver.Chrome('C:\\Users\\김종하\\Downloads\\chromedriver_win32\\chromedriver.exe', options=opt)
 drv.implicitly_wait(3)
 drv.get('https://finance.naver.com/sise/etf.nhn')
 

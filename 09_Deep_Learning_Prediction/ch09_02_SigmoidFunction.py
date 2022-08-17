@@ -10,3 +10,4 @@ y = sigmoid(x)
 plt.plot(x, y)
 plt.title('sigmoid function')
 plt.show()
+

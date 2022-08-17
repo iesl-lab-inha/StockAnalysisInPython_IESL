@@ -10,3 +10,4 @@ y = relu(x)
 plt.plot(x, y)
 plt.title('ReLU function')
 plt.show()
+

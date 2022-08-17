@@ -11,3 +11,4 @@ Z1 = sigmoid(A1)
 
 print('A1 :', A1)
 print('Z1 :', Z1)
+

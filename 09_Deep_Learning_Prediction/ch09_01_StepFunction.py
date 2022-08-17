@@ -10,3 +10,4 @@ y = stepfunc(x)
 plt.plot(x, y)
 plt.title('step function')
 plt.show()
+

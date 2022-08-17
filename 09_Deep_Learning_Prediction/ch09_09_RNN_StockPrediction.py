@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from Investar import Analyzer
 
 mk = Analyzer.MarketDB()
-raw_df = mk.get_daily_price('삼성전자', '2018-05-04', '2020-01-22')
+raw_df = mk.get_daily_price('005930', '2018-05-10')
 
 window_size = 10 
 data_size = 5
@@ -31,7 +31,7 @@ for i in range(len(y) - window_size):
     _y = y[i + window_size]     # 다음 날 종가
     data_x.append(_x)
     data_y.append(_y)
-print(_x, "->", _y)
+    print(_x, "->", _y)
 
 train_size = int(len(data_y) * 0.7)
 train_x = np.array(data_x[0 : train_size])
